@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,9 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-/* Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-}); */
+
 
 Route::group(['prefix' => 'Auth'], function() {
     Route::post('login', [AuthController::class, 'login']);
@@ -25,5 +24,11 @@ Route::group(['prefix' => 'Auth'], function() {
     Route::delete('logout', [AuthController::class, 'logout'])->middleware(('auth:sanctum'));
 });
 
+Route::group(['prefix' => 'Users'], function() {
+    Route::get('getAll', [UserController::class, 'index'])->middleware(('auth:sanctum'));
+    Route::post('create', [UserController::class, 'store'])->middleware(('auth:sanctum'));
+    Route::get('getUser/{id}', [UserController::class, 'show'])->middleware('auth:sanctum');
+    Route::put('update/{id}', [UserController::class, 'update'])->middleware('auth:sanctum');
+    Route::delete('delete/{id}', [UserController::class, 'destroy'])->middleware('auth:sanctum');
+});
 
-// Agrega más rutas de API aquí
