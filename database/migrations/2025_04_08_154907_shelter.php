@@ -11,16 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('breeders', function (Blueprint $table) {
+        Schema::create('shelters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
-            $table->string('name');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('name')->unique();;
             $table->text('logo_url');
             $table->string('address');
             $table->string('location');
+            $table->string('phone');
+            $table->string('email_shelter')->unique();;
+            $table->string('cif');
             $table->text('description');
-            $table->string('certification');
             $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('breeders');
+        Schema::dropIfExists('shelters');
     }
 };
