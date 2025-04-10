@@ -1,11 +1,20 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BreederController;
 use App\Http\Controllers\ShelterController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AnimalController;
+use App\Models\Species;
+use App\Models\Status;
+use App\Models\AgeCategory;
+use App\Models\Genre;
+use App\Models\HousingStage;
+use App\Models\Size;
+use App\Models\EnergyLevel;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -17,8 +26,6 @@ use Illuminate\Support\Facades\Route;
 | de middleware "api". ¡Disfruta creando tu API!
 |
 */
-
-
 
 Route::group(['prefix' => 'auth'], function() {
     Route::post('login', [AuthController::class, 'login']);
@@ -40,7 +47,7 @@ Route::group(['prefix' => 'breeders', 'middleware' => 'auth:sanctum'], function 
     Route::post('create', [BreederController::class, 'store']);
     Route::get('getBreeder/{id}', [BreederController::class, 'show']);
     Route::put('update/{id}', [BreederController::class, 'update']);
-    Route::delete('delte/{id}', [BreederController::class, 'destroy']);
+    Route::delete('delete/{id}', [BreederController::class, 'destroy']);
 });
 
 Route::group(['prefix' => 'shelters', 'middleware' => 'auth:sanctum'], function () {
@@ -48,6 +55,23 @@ Route::group(['prefix' => 'shelters', 'middleware' => 'auth:sanctum'], function 
     Route::post('create', [ShelterController::class, 'store']);
     Route::get('getShelter/{id}', [ShelterController::class, 'show']);
     Route::put('update/{id}', [ShelterController::class, 'update']);
-    Route::delete('delte/{id}', [ShelterController::class, 'destroy']);
+    Route::delete('delete/{id}', [ShelterController::class, 'destroy']);
 });
 
+Route::group(['prefix' => 'animals', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('getAll', [AnimalController::class, 'index']);
+    Route::post('create', [AnimalController::class, 'store']);
+    Route::get('getAnimal/{id}', [AnimalController::class, 'show']);
+    Route::put('update/{id}', [AnimalController::class, 'update']);
+    Route::delete('delete/{id}', [AnimalController::class, 'destroy']);
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('species', fn () => Species::all());
+    Route::get('status', fn () => Status::all());
+    Route::get('agecategories', fn () => AgeCategory::all());
+    Route::get('genres', fn () => Genre::all());
+    Route::get('housing-stages', fn () => HousingStage::all());
+    Route::get('sizes', fn () => Size::all());
+    Route::get('energy-levels', fn () => EnergyLevel::all());
+});

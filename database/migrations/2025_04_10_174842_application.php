@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
             $table->text('reason');
-            $table->foreignId('stage_id')->constrained('stages');
+            $table->foreignId('housing_stage_id')->constrained('housing_stages');
             $table->foreignId('animal_id')->constrained('animals');
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('shelter_id')->nullable()->constrained('shelters');
