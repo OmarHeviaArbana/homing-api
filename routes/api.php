@@ -7,6 +7,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\BreederController;
 use App\Http\Controllers\ShelterController;
 use App\Http\Controllers\AnimalController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\AnimalImageController;
+use App\Http\Controllers\ApplicationController;
 use App\Models\Species;
 use App\Models\Status;
 use App\Models\AgeCategory;
@@ -74,4 +77,28 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('housing-stages', fn () => HousingStage::all());
     Route::get('sizes', fn () => Size::all());
     Route::get('energy-levels', fn () => EnergyLevel::all());
+});
+
+Route::group(['prefix' => 'favorites', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('getAll', [FavoriteController::class, 'index']);
+    Route::post('add', [FavoriteController::class, 'store']);
+    Route::delete('delete/{id}', [FavoriteController::class, 'destroy']);
+    Route::get('user/{userId}', [FavoriteController::class, 'getFavoriteByUser']);
+});
+
+Route::prefix('animal-images')->middleware('auth:sanctum')->group(function () {
+    Route::get('getImages/{animal_id}', [AnimalImageController::class, 'index']);
+    Route::post('add', [AnimalImageController::class, 'store']);
+    Route::delete('delete/{id}', [AnimalImageController::class, 'destroy']);
+});
+
+
+Route::group(['prefix' => 'applications', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('getAll', [ApplicationController::class, 'index']);
+    Route::post('create', [ApplicationController::class, 'store']);
+    Route::get('getApplication/{id}', [ApplicationController::class, 'show']);
+    Route::delete('/{id}', [ApplicationController::class, 'destroy']);
+    Route::get('shelter/{id}', [ApplicationController::class, 'getByShelter']);
+    Route::get('breeder/{id}', [ApplicationController::class, 'getByBreeder']);
+    Route::put('update/{id}', [ApplicationController::class, 'update']);
 });

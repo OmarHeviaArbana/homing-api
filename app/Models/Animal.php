@@ -28,7 +28,6 @@ class Animal extends Model
         'care'
     ];
 
-    // Relaciones con otras tablas
     public function species() { return $this->belongsTo(Species::class); }
     public function status() { return $this->belongsTo(Status::class); }
     public function ageCategory() { return $this->belongsTo(AgeCategory::class, 'agecategory_id'); }
@@ -36,4 +35,7 @@ class Animal extends Model
     public function housingStage() { return $this->belongsTo(HousingStage::class); }
     public function size() { return $this->belongsTo(Size::class); }
     public function energyLevel() { return $this->belongsTo(EnergyLevel::class, 'energylevel_id'); }
+    public function favorites() {return $this->hasMany(Favorite::class); }
+    public function images() { return $this->hasMany(AnimalImage::class); }
+
 }
