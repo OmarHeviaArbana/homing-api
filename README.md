@@ -1,3 +1,166 @@
+
+# Homing API
+
+Homing es una API RESTful desarrollada con Laravel, que sirve como backend de una plataforma para la adopción de animales domésticos. Está diseñada para gestionar usuarios, refugios, criadores, animales, imágenes, solicitudes de adopción, y más. La API facilita la conexión entre adoptantes potenciales y entidades responsables de animales como shelters (refugios) y breeders (criadores), permitiendo un flujo de trabajo organizado y controlado para las solicitudes de adopción.
+
+---
+
+## Características principales
+
+- Autenticación segura con **Laravel Sanctum**.
+- CRUD completo para **usuarios**, **criadores**, **refugios**, **animales**, **solicitudes de adopción** y entidades auxiliares.
+- Asociación de animales con imágenes, categorías, géneros, estados y otras propiedades filtrables.
+- Sistema de **favoritos** para que los usuarios puedan guardar animales de interés.
+- Gestión de estados de adopción mediante la tabla `housing_stages`.
+- Validaciones centralizadas y control de errores.
+- Estructura clara y escalable con **migraciones**, **seeders**, **modelos**, **rutas** y **controladores** separados.
+
+---
+
+## Modelo de datos
+
+<img src="/resources/assets/modelo-datos-homing.png"></img>
+
+---
+
+## Tablas principales
+
+- `users` – Gestión de usuarios y roles.
+- `shelters` – Información de los refugios.
+- `breeders` – Información de los criadores.
+- `animals` – Registro de animales con detalles.
+- `animal_images` – Imágenes asociadas a animales.
+- `applications` – Solicitudes de adopción.
+- `favorites` – Relación entre usuarios y animales favoritos.
+- Tablas auxiliares: `housing_stages`, `species`, `status`, `agecategories`, `genres`, `sizes`, `energy_levels`.
+
+---
+
+## Requisitos previos
+
+- PHP >= 8.2
+- Composer
+- Laravel >= 10
+- PostgreSQL
+- Base de datos llamada `homing` creada manualmente con una contraseña establecida en `.env`
+
+---
+
+## Preparación del entorno
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu_usuario/homing-api.git
+cd homing-api
+```
+
+### 2. Instalar dependencias
+
+```bash
+composer install
+```
+
+### 3. Configurar el entorno
+
+Copia el archivo `.env.example` y renómbralo como `.env`. Luego configura la conexión a tu base de datos PostgreSQL:
+
+```bash
+cp .env.example .env
+```
+
+Modifica las siguientes variables en `.env`:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=homing
+DB_USERNAME=postgres
+DB_PASSWORD=tu_contraseña
+```
+
+### 4. Generar la clave de la aplicación
+
+```bash
+php artisan key:generate
+```
+
+---
+
+## Migraciones y Seeders
+
+Para crear las tablas y poblarlas con datos iniciales en las tablas auxiliares:
+
+### 5. Ejecutar migraciones
+
+```bash
+php artisan migrate
+```
+
+### 6. Ejecutar seeders (solo las tablas auxiliares)
+
+```bash
+php artisan db:seed --class=DatabaseSeeder
+```
+
+O, si quieres reiniciar solo esas tablas:
+
+```bash
+php artisan db:seed --class=AuxTablesSeeder
+```
+
+---
+
+## Arranque del proyecto
+
+```bash
+php artisan serve
+```
+
+La API estará disponible en `http://localhost:8000`.
+
+---
+
+## Colección de Postman
+
+```bash
+
+https://.postman.co/workspace/My-Workspace~9d7bd3e3-9450-4b3f-86c1-fcb15071828e/collection/31110220-5c524b3d-a7b5-46dc-854d-77c12c4fd7fd?action=share&creator=31110220&active-environment=31110220-48476310-96cf-44f7-90b1-9cee770f80d3
+```
+
+---
+
+## Estructura principal del proyecto
+
+```bash
+app/
+├── Http/
+│   ├── Controllers/
+│   └── Requests/
+├── Models/
+database/
+├── migrations/
+├── seeders/
+routes/
+├── api.php
+.env
+```
+
+---
+
+## Autoria
+
+Proyecto propiedad de **Omar Hevia Arbana**  y realizado como parte del **Trabajo Final del Master Universitario de Desarrollo de Aplicaciones y sitios web de la Universitat Oberta de Catalunya**.
+
+---
+
+## Contacto
+
+Para cualquier duda o sugerencia, puedes escribir a `ohevia@uoc.edu`
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
