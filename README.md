@@ -124,9 +124,20 @@ La API estará disponible en `http://localhost:8000`.
 
 ## Colección de Postman
 
+### Collection
+
 ```bash
 
 https://.postman.co/workspace/My-Workspace~9d7bd3e3-9450-4b3f-86c1-fcb15071828e/collection/31110220-5c524b3d-a7b5-46dc-854d-77c12c4fd7fd?action=share&creator=31110220&active-environment=31110220-48476310-96cf-44f7-90b1-9cee770f80d3
+```
+
+---
+
+### Environment
+
+```bash
+
+https://.postman.co/workspace/My-Workspace~9d7bd3e3-9450-4b3f-86c1-fcb15071828e/environment/31110220-48476310-96cf-44f7-90b1-9cee770f80d3?action=share&creator=31110220&active-environment=31110220-48476310-96cf-44f7-90b1-9cee770f80d3
 ```
 
 ---
