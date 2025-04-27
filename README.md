@@ -26,6 +26,7 @@ Homing es una API RESTful desarrollada con Laravel, que sirve como backend de un
 ## Tablas principales
 
 - `users` – Gestión de usuarios y roles.
+- `roles` – Información de los roles.
 - `shelters` – Información de los refugios.
 - `breeders` – Información de los criadores.
 - `animals` – Registro de animales con detalles.
@@ -98,16 +99,16 @@ Para crear las tablas y poblarlas con datos iniciales en las tablas auxiliares:
 php artisan migrate
 ```
 
-### 6. Ejecutar seeders (solo las tablas auxiliares)
+### 6. Ejecutar seeders
 
 ```bash
-php artisan db:seed --class=DatabaseSeeder
+php artisan db:seed 
 ```
 
-O, si quieres reiniciar solo esas tablas:
+O, si quieres reiniciar solo un tabla concreta:
 
 ```bash
-php artisan db:seed --class=AuxTablesSeeder
+php artisan db:seed --class=NombreSeeder
 ```
 
 ---
@@ -118,7 +119,7 @@ php artisan db:seed --class=AuxTablesSeeder
 php artisan serve
 ```
 
-La API estará disponible en `http://localhost:8000`.
+La API estará disponible en `http://127.0.0.1:8000/api`.
 
 ---
 
