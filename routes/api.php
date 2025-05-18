@@ -30,6 +30,9 @@ use App\Models\EnergyLevel;
 |
 */
 
+Route::post('/auth/api-login', [AuthController::class, 'apiLogin']);
+
+
 Route::group(['prefix' => 'auth'], function() {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);

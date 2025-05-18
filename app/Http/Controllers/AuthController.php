@@ -9,6 +9,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -45,10 +46,24 @@ class AuthController extends Controller
 
     public function logout(Request $request): JsonResponse
     {
-     $request->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete();
 
         return response()->json([
             'message' => 'Se ha cerrado sesión correctamente',
         ], Response::HTTP_OK);
+    }
+
+    public function apiLogin(Request $request)
+    {
+        $user = User::where('email', 'ohevia@uoc.edu')->first();
+        if (!$user || !Hash::check('Admin_123', $user->password)) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
+        $token = $user->createToken('api_token')->plainTextToken;
+
+        return response()->json([
+            'access_token' => $token
+        ]);
     }
 }
