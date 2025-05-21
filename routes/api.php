@@ -31,6 +31,8 @@ use App\Models\EnergyLevel;
 */
 
 Route::post('/auth/api-login', [AuthController::class, 'apiLogin']);
+Route::post('animal-images/upload', [AnimalImageController::class, 'upload']);
+
 
 
 Route::group(['prefix' => 'auth'], function() {
@@ -70,6 +72,8 @@ Route::group(['prefix' => 'animals', 'middleware' => 'auth:sanctum'], function (
     Route::get('getAnimal/{id}', [AnimalController::class, 'show']);
     Route::put('update/{id}', [AnimalController::class, 'update']);
     Route::delete('delete/{id}', [AnimalController::class, 'destroy']);
+    Route::post('animal-images/upload', [AnimalImageController::class, 'upload']);
+
 });
 
 Route::middleware('auth:sanctum')->group(function () {

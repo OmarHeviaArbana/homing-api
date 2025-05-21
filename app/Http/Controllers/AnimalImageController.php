@@ -58,5 +58,19 @@ class AnimalImageController extends Controller
         return response()->json(['message' => 'Imagen eliminada correctamente'], Response::HTTP_OK);
     }
 
+    public function upload(Request $request)
+{
+    $request->validate([
+        'image' => 'required|image|max:5000'
+    ]);
+
+    $path = $request->file('image')->store('public/animal_images');
+    $url = str_replace('public/', 'storage/', $path);
+
+    return response()->json([
+        'image_url' => $url
+    ], Response::HTTP_OK);
+}
+
 
 }

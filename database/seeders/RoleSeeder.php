@@ -9,11 +9,13 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
+        DB::table('roles')->truncate();
+
         DB::table('roles')->insert([
-            ['name' => 'Admin'],
-            ['name' => 'User'],
-            ['name' => 'Shelter'],
-            ['name' => 'Breeder'],
+            ['id' => 1, 'name' => 'Admin'],
+            ['id' => 2, 'name' => 'User'],
+            ['id' => 3, 'name' => 'Shelter'],
+            ['id' => 4, 'name' => 'Breeder'],
         ]);
     }
 }
