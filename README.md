@@ -95,6 +95,8 @@ Para crear las tablas y poblarlas con datos iniciales en las tablas auxiliares:
 
 ### 5. Ejecutar migraciones
 
+Es recomendable hacer la migración de la tabla de roles ya que la tabla user tiene relación con la de roles.
+
 ```bash
 php artisan migrate
 ```

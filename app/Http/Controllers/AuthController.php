@@ -23,6 +23,12 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
+
+        if ($user->role_id == 3) {
+            $user->load('shelter');
+        } elseif ($user->role_id == 4) {
+            $user->load('breeder');
+        }
         $userToken = $user->createToken('AppToken')-> plainTextToken;
         return response()->json([
             'message' => 'Se ha iniciado sesión correctamente',

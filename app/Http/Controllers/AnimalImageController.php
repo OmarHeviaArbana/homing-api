@@ -20,27 +20,41 @@ class AnimalImageController extends Controller
      /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+
+   public function store(Request $request)
     {
         $validated = $request->validate([
             'animal_id' => 'required|exists:animals,id',
-            'image_url' => 'required|string',
-            'principal' => 'boolean'
+            'photos' => 'required|array',
+            'photos.*.image_url' => 'required|string',
+            'photos.*.principal' => 'boolean'
         ]);
 
-        // Si es principal, se desmarcan el resto de imagenes
-        if (isset($validated['principal']) && $validated['principal']) {
-            AnimalImage::where('animal_id', $validated['animal_id'])
-                ->update(['principal' => false]);
+        $animal_id = $validated['animal_id'];
+        $photos = $validated['photos'];
+
+        $hasPrincipal = collect($photos)->contains(fn($photo) => isset($photo['principal']) && $photo['principal']);
+        if ($hasPrincipal) {
+            AnimalImage::where('animal_id', $animal_id)->update(['principal' => false]);
         }
 
-        $image = AnimalImage::create($validated);
+        $createdImages = [];
+        foreach ($photos as $photo) {
+            $data = [
+                'animal_id' => $animal_id,
+                'image_url' => $photo['image_url'],
+                'principal' => $photo['principal'] ?? false,
+            ];
+            $createdImages[] = AnimalImage::create($data);
+        }
 
         return response()->json([
-            'message' => 'Imagen guardada correctamente',
-            'image' => $image
+            'message' => 'Imágenes guardadas correctamente',
+            'images' => $createdImages
         ], Response::HTTP_CREATED);
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -58,19 +72,33 @@ class AnimalImageController extends Controller
         return response()->json(['message' => 'Imagen eliminada correctamente'], Response::HTTP_OK);
     }
 
-    public function upload(Request $request)
-{
-    $request->validate([
-        'image' => 'required|image|max:5000'
-    ]);
 
-    $path = $request->file('image')->store('public/animal_images');
-    $url = str_replace('public/', 'storage/', $path);
+    public function addImageWithUpload(Request $request)
+    {
+        $validated = $request->validate([
+            'animal_id' => 'required|exists:animals,id',
+            'image' => 'required|image|max:5000',
+            'principal' => 'boolean'
+        ]);
 
-    return response()->json([
-        'image_url' => $url
-    ], Response::HTTP_OK);
-}
+    $path = $request->file('image')->store('animal_images', 'public');
+        $url = str_replace('public/', 'storage/', $path);
+
+        if ($request->boolean('principal')) {
+            AnimalImage::where('animal_id', $validated['animal_id'])->update(['principal' => false]);
+        }
+
+        $animalImage = AnimalImage::create([
+            'animal_id' => $validated['animal_id'],
+            'image_url' => $url,
+            'principal' => $request->boolean('principal'),
+        ]);
+
+        return response()->json([
+            'message' => 'Imagen subida y guardada correctamente',
+            'image' => $animalImage
+        ], Response::HTTP_CREATED);
+    }
 
 
 }

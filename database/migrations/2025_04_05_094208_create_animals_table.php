@@ -29,6 +29,8 @@ return new class extends Migration
             $table->boolean('vaccines');
             $table->boolean('sterilization');
             $table->string('care')->nullable();
+            $table->foreignId('shelter_id')->nullable()->constrained('shelters');
+            $table->foreignId('breeder_id')->nullable()->constrained('breeders');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
         });

@@ -18,7 +18,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with(['shelter', 'breeder'])->get();
         return response()->json($users, Response::HTTP_OK);
     }
 
@@ -29,7 +29,7 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string',
-            'username' => 'required|string|unique:users',
+            'username' => 'required|string',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
             'role_id' => 'required|exists:roles,id'
@@ -56,6 +56,12 @@ class UserController extends Controller
             return response()->json(['message' => 'Usuario no encontrado'], Response::HTTP_NOT_FOUND);
         }
 
+        if ($user->role_id == 3) {
+            $user->load('shelter');
+        } elseif ($user->role_id == 4) {
+            $user->load('breeder');
+        }
+
         return response()->json($user, Response::HTTP_OK);
     }
 
@@ -72,7 +78,7 @@ class UserController extends Controller
 
         $validated = $request->validate([
             'name' => 'sometimes|required|string',
-            'username' => 'sometimes|required|string|unique:users,username,' . $user->id,
+            'username' => 'sometimes|required|string',
             'email' => 'sometimes|required|email|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8',
             'role_id' => 'sometimes|required|exists:roles,id'
@@ -104,5 +110,20 @@ class UserController extends Controller
         $user->delete();
 
         return response()->json(['message' => 'Usuario eliminado correctamente'], Response::HTTP_OK);
+    }
+
+
+        public function upload(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|max:5000'
+        ]);
+
+        $path = $request->file('image')->store('user', 'public');
+        $url = str_replace('public/', 'storage/', $path);
+
+        return response()->json([
+            'image_url' => $url
+        ], Response::HTTP_OK);
     }
 }

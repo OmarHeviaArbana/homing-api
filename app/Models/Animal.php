@@ -25,7 +25,9 @@ class Animal extends Model
         'identifier',
         'vaccines',
         'sterilization',
-        'care'
+        'care',
+        'shelter_id',
+        'breeder_id'
     ];
 
     public function species() { return $this->belongsTo(Species::class); }
@@ -37,5 +39,7 @@ class Animal extends Model
     public function energyLevel() { return $this->belongsTo(EnergyLevel::class, 'energylevel_id'); }
     public function favorites() {return $this->hasMany(Favorite::class); }
     public function images() { return $this->hasMany(AnimalImage::class); }
+    public function shelter() { return $this->belongsTo(Shelter::class); }
+    public function breeder() { return $this->belongsTo(Breeder::class); }
 
 }

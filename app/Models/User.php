@@ -51,5 +51,6 @@ class User extends Authenticatable
     }
 
     public function favorites(){return $this->hasMany(Favorite::class);}
-/*     public function role() { return $this->belongsTo(Role::class); } */
+    public function breeder(){return $this->hasOne(Breeder::class);}
+    public function shelter(){return $this->hasOne(Shelter::class);}
 }

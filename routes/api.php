@@ -32,7 +32,8 @@ use App\Models\EnergyLevel;
 
 Route::post('/auth/api-login', [AuthController::class, 'apiLogin']);
 Route::post('animal-images/upload', [AnimalImageController::class, 'upload']);
-
+Route::get('shelters/{id}/animals', [ShelterController::class, 'getAnimalsByShelter']);
+Route::get('breeders/{id}/animals', [BreederController::class, 'getAnimalsByBreeder']);
 
 
 Route::group(['prefix' => 'auth'], function() {
@@ -47,6 +48,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function() {
     Route::get('getUser/{id}', [UserController::class, 'show']);
     Route::put('update/{id}', [UserController::class, 'update']);
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
+    Route::post('upload-logo', [UserController::class, 'upload']);
 });
 
 
@@ -56,6 +58,7 @@ Route::group(['prefix' => 'breeders', 'middleware' => 'auth:sanctum'], function 
     Route::get('getBreeder/{id}', [BreederController::class, 'show']);
     Route::put('update/{id}', [BreederController::class, 'update']);
     Route::delete('delete/{id}', [BreederController::class, 'destroy']);
+    Route::post('upload-logo', [BreederController::class, 'upload']);
 });
 
 Route::group(['prefix' => 'shelters', 'middleware' => 'auth:sanctum'], function () {
@@ -64,6 +67,7 @@ Route::group(['prefix' => 'shelters', 'middleware' => 'auth:sanctum'], function 
     Route::get('getShelter/{id}', [ShelterController::class, 'show']);
     Route::put('update/{id}', [ShelterController::class, 'update']);
     Route::delete('delete/{id}', [ShelterController::class, 'destroy']);
+    Route::post('upload-logo', [ShelterController::class, 'upload']);
 });
 
 Route::group(['prefix' => 'animals', 'middleware' => 'auth:sanctum'], function () {
@@ -97,6 +101,7 @@ Route::prefix('animal-images')->middleware('auth:sanctum')->group(function () {
     Route::get('getImages/{animal_id}', [AnimalImageController::class, 'index']);
     Route::post('add', [AnimalImageController::class, 'store']);
     Route::delete('delete/{id}', [AnimalImageController::class, 'destroy']);
+    Route::post('upload-and-save', [AnimalImageController::class, 'addImageWithUpload']);
 });
 
 

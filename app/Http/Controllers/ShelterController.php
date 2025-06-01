@@ -6,6 +6,7 @@ use App\Models\Shelter;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use App\Models\Animal;
 
 
 class ShelterController extends Controller
@@ -105,5 +106,41 @@ class ShelterController extends Controller
         $shelter->delete();
 
         return response()->json(['message' => 'Refugio eliminado correctamente'], Response::HTTP_OK);
+    }
+
+        public function getAnimalsByShelter($shelterId): JsonResponse
+    {
+        $shelter = Shelter::find($shelterId);
+
+        if (! $shelter) {
+            return response()->json(['message' => 'Shelter no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        $animals = Animal::with([
+            'species',
+            'status',
+            'genre',
+            'ageCategory',
+            'size',
+            'energyLevel',
+            'housingStage',
+            'images'
+        ])->where('shelter_id', $shelterId)->get();
+
+        return response()->json($animals, Response::HTTP_OK);
+    }
+
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|max:5000'
+        ]);
+
+        $path = $request->file('image')->store('shelter-logos', 'public');
+        $url = str_replace('public/', 'storage/', $path);
+
+        return response()->json([
+            'image_url' => $url
+        ], Response::HTTP_OK);
     }
 }

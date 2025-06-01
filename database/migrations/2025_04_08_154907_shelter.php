@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('shelters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('name')->unique();;
+            $table->string('name')->unique();
             $table->text('logo_url');
             $table->string('address');
             $table->string('location');
             $table->string('phone');
-            $table->string('email_shelter')->unique();;
+            $table->string('email_shelter');
             $table->string('cif');
             $table->text('description');
             $table->timestamp('created_at')->useCurrent();

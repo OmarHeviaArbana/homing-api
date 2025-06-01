@@ -23,7 +23,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',          // Nombre del usuario
-            'username' => 'required|string|max:255|unique:users,username', // Nombre de usuario único
+            'username' => 'required|string|max:255', // Nombre de usuario único
             'email' => 'required|email|unique:users,email', // Correo único y formato correcto
             'password' => 'required|string|min:8', // Contraseña con confirmación y longitud mínima
             'role_id' => 'required|exists:roles,id',  // Verifica que el role_id esté en la tabla roles
