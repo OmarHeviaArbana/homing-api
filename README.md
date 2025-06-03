@@ -91,7 +91,7 @@ php artisan key:generate
 
 ## Migraciones y Seeders
 
-Para crear las tablas y poblarlas con datos iniciales en las tablas auxiliares:
+Para crear las tablas y poblarlas con datos iniciales en las tablas auxiliares (IMPORTANTE):
 
 ### 5. Ejecutar migraciones
 
