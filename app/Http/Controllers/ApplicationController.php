@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Models\Shelter;
 use App\Models\Breeder;
+use App\Models\User;
 
 class ApplicationController extends Controller
 {
@@ -108,6 +109,17 @@ class ApplicationController extends Controller
         }
 
         $applications = Application::where('breeder_id', $breederId)->with(['animal', 'user'])->get();
+        return response()->json($applications, Response::HTTP_OK);
+    }
+
+    public function getByUser($userId): JsonResponse
+    {
+        $user = User::find($userId);
+        if (! $user) {
+            return response()->json(['message' => 'user no encontrado'], Response::HTTP_NOT_FOUND);
+        }
+
+        $applications = Application::where('user_id', $userId)->with(['animal', 'user' , 'breeder', 'shelter'])->get();
         return response()->json($applications, Response::HTTP_OK);
     }
 }

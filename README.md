@@ -113,6 +113,13 @@ O, si quieres reiniciar solo un tabla concreta:
 php artisan db:seed --class=NombreSeeder
 ```
 
+### 7. Configurar Laravel para exponer storage
+
+```bash
+php artisan storage:link
+```
+
+
 ---
 
 ## Arranque del proyecto

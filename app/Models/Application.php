@@ -22,4 +22,5 @@ class Application extends Model
     public function shelter() { return $this->belongsTo(Shelter::class); }
     public function breeder() { return $this->belongsTo(Breeder::class); }
     public function housingStage() { return $this->belongsTo(HousingStage::class); }
+
 }

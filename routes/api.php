@@ -31,9 +31,6 @@ use App\Models\EnergyLevel;
 */
 
 Route::post('/auth/api-login', [AuthController::class, 'apiLogin']);
-Route::post('animal-images/upload', [AnimalImageController::class, 'upload']);
-Route::get('shelters/{id}/animals', [ShelterController::class, 'getAnimalsByShelter']);
-Route::get('breeders/{id}/animals', [BreederController::class, 'getAnimalsByBreeder']);
 
 
 Route::group(['prefix' => 'auth'], function() {
@@ -53,6 +50,7 @@ Route::group(['prefix' => 'users', 'middleware' => 'auth:sanctum'], function() {
 
 
 Route::group(['prefix' => 'breeders', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('{id}/animals', [BreederController::class, 'getAnimalsByBreeder']);
     Route::get('getAll', [BreederController::class, 'index']);
     Route::post('create', [BreederController::class, 'store']);
     Route::get('getBreeder/{id}', [BreederController::class, 'show']);
@@ -62,6 +60,7 @@ Route::group(['prefix' => 'breeders', 'middleware' => 'auth:sanctum'], function 
 });
 
 Route::group(['prefix' => 'shelters', 'middleware' => 'auth:sanctum'], function () {
+    Route::get('{id}/animals', [ShelterController::class, 'getAnimalsByShelter']);
     Route::get('getAll', [ShelterController::class, 'index']);
     Route::post('create', [ShelterController::class, 'store']);
     Route::get('getShelter/{id}', [ShelterController::class, 'show']);
@@ -71,12 +70,13 @@ Route::group(['prefix' => 'shelters', 'middleware' => 'auth:sanctum'], function 
 });
 
 Route::group(['prefix' => 'animals', 'middleware' => 'auth:sanctum'], function () {
+    Route::post('animal-images/upload', [AnimalImageController::class, 'upload']);
     Route::get('getAll', [AnimalController::class, 'index']);
     Route::post('create', [AnimalController::class, 'store']);
     Route::get('getAnimal/{id}', [AnimalController::class, 'show']);
     Route::put('update/{id}', [AnimalController::class, 'update']);
     Route::delete('delete/{id}', [AnimalController::class, 'destroy']);
-    Route::post('animal-images/upload', [AnimalImageController::class, 'upload']);
+
 
 });
 
@@ -112,5 +112,6 @@ Route::group(['prefix' => 'applications', 'middleware' => 'auth:sanctum'], funct
     Route::delete('/{id}', [ApplicationController::class, 'destroy']);
     Route::get('shelter/{id}', [ApplicationController::class, 'getByShelter']);
     Route::get('breeder/{id}', [ApplicationController::class, 'getByBreeder']);
+    Route::get('user/{id}', [ApplicationController::class, 'getByUser']);
     Route::put('update/{id}', [ApplicationController::class, 'update']);
 });
