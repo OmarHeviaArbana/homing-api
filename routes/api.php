@@ -115,3 +115,7 @@ Route::group(['prefix' => 'applications', 'middleware' => 'auth:sanctum'], funct
     Route::get('user/{id}', [ApplicationController::class, 'getByUser']);
     Route::put('update/{id}', [ApplicationController::class, 'update']);
 });
+
+Route::get('/health', function () {
+    return response()->json(['status' => 'ok']);
+});
